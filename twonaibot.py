@@ -104,7 +104,7 @@ def handle_updates(updates):
             elif text.startswith("/deleteallmembers"):
                 db.deleteAll()
                 send_message("Todos os membros Twonai foram deletados :(", chat)
-            elif text == "/deletedelaysfrom":
+            elif text.startswith("/deletedelaysfrom"):
                 cur_cmd = "deldf"
                 keyboard = build_keyboard(members)
                 send_message("Quem é o membro que terá seus atrasos zerados? :D", chat, keyboard)

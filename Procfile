@@ -1,1 +1,1 @@
-web: python twonaibot.py
+web: python twonaibot.py $PORT

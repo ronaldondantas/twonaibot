@@ -165,8 +165,7 @@ def main():
             handle_updates(updates)
         time.sleep(0.5)
 
-    print "TwonaiBot Running"
-
 
 if __name__ == '__main__':
+    print "TwonaiBot Running"
     main()

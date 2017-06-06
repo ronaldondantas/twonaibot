@@ -73,10 +73,14 @@ def handle_updates(updates):
                 send_message("Fala, *twospleik*! Eu rankeio os membros Twonai pelos atrasos em reuniões " + 
                     "que eles cometem no setor de dev da Polibrás.\n\n Esses são meus comandos: \n\n" + 
                     " /rank - Ranking dos atrasados \n" + 
-                    " /adddelay - Adicionar atraso para um membro\n" + 
+                    " /adddelay - Adicionar atraso para um membro\n" +
+                    " /addpending - Adicionar pendência para um membro\n" +
                     " /addmember - Adicionar membro \n" + 
                     " /deletemember - Deletar um membro \n" + 
                     " /deleteallmembers - Deletar todos os membros \n" + 
+                    " /deleteallpendencies - Zerar as pendências de todos os membros \n" + 
+                    " /decreasependingfrom - Diminuir uma pendência de um membro " +
+                    " /deletependenciesfrom - Zerar as pendências de um membro \n" + 
                     " /deletealldelays - Zerar os atrasos de todos os membros \n" + 
                     " /deletedelaysfrom - Zerar os atrasos de um membro \n" + 
                     " /decreasedelayfrom - Diminuir um atraso de um membro ", chat)
@@ -88,6 +92,13 @@ def handle_updates(updates):
                     cur_cmd = "ad"
                     keyboard = build_keyboard(members)
                     send_message("Quem foi o Twonai que se atrasou?", chat, keyboard)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
+            elif text.startswith("/addpending"):
+                if members:
+                    cur_cmd = "ap"
+                    keyboard = build_keyboard(members)
+                    send_message("Adicionar pendência para quem?", chat, keyboard)
                 else:
                     send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/rank"):
@@ -104,6 +115,18 @@ def handle_updates(updates):
             elif text.startswith("/deleteallmembers"):
                 db.deleteAll()
                 send_message("Todos os membros Twonai foram deletados :(", chat)
+            elif text.startswith("/deletependenciesfrom"):
+                cur_cmd = "delpdfm"
+                keyboard = build_keyboard(members)
+                send_message("Quem é o membro que terá suas pendências zeradas?", chat, keyboard)
+            elif text.startswith("/decreasependingfrom"):
+                cur_cmd = "decpdfm"
+                keyboard = build_keyboard(members)
+                send_message("Quem é o membro que devo retirar uma pendência? :D", chat, keyboard)
+            elif text.startswith("/deleteallpendencies"):
+                cur_cmd = "delallpnd"
+                db.deleteAllPendencies()
+                send_message("Pendências zeradas! :P", chat)
             elif text.startswith("/deletedelaysfrom"):
                 cur_cmd = "deldf"
                 keyboard = build_keyboard(members)
@@ -127,6 +150,12 @@ def handle_updates(updates):
                 if cur_cmd ==  "am":
                     db.add_member(text)
                     send_message(text + " incluido com sucesso!\n", chat)
+                elif cur_cmd ==  "delpdfm":
+                    db.deletePendenciesFrom(text)
+                    send_message(text + " esta sem pendencias, papai!\n", chat)
+                elif cur_cmd ==  "decpdfm":
+                    db.decreasePendingFrom(text)
+                    send_message("UAU! " + text + " deu uma reduzida nas pendencias... ;)\n", chat)
                 elif cur_cmd ==  "deldf":
                     db.deleteDelaysFrom(text)
                     send_message(text + " esta sem atrasos, papai!\n", chat)
@@ -139,7 +168,15 @@ def handle_updates(updates):
                 elif cur_cmd ==  "ad":
                     if (db.exists(text) == True):
                         db.add_delay(text)
+                        db.add_pending(text)
                         send_message("IEEEEEI! " + text + " se lascou, papaai!", chat)
+                    else:
+                        cur_cmd = ""
+                        send_message("Oh o Douglas! Esse membro Twonai não existe.\n", chat)
+                elif cur_cmd ==  "ap":
+                    if (db.exists(text) == True):
+                        db.add_pending(text)
+                        send_message("Pois toma essa pendência, " + text + "!", chat)
                     else:
                         cur_cmd = ""
                         send_message("Oh o Douglas! Esse membro Twonai não existe.\n", chat)

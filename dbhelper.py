@@ -8,8 +8,31 @@ class DBHelper:
         self.conn = sqlite3.connect(dbname)
 
     def setup(self):
-        stmt = "CREATE TABLE IF NOT EXISTS members_delay (id INTEGER PRIMARY KEY, name TEXT, delay_number INTEGER DEFAULT 0)"
+        stmt = "CREATE TABLE IF NOT EXISTS members_delay (id INTEGER PRIMARY KEY, name TEXT, delay_number INTEGER DEFAULT 0, pendencies_number INTEGER DEFAULT 0)"
         self.conn.execute(stmt)
+        self.conn.commit()
+
+    def add_pending(self, member_name):
+        stmt = "UPDATE members_delay SET pendencies_number = pendencies_number+1 WHERE name = (?)"
+        args = (member_name, )
+        self.conn.execute(stmt, args)
+        self.conn.commit()
+
+    def deleteAllPendencies(self):
+        stmt = "UPDATE members_delay SET pendencies_number = 0"
+        self.conn.execute(stmt)
+        self.conn.commit()
+
+    def deletePendingFrom(self, member_name):
+        stmt = "UPDATE members_delay SET pendencies_number = 0 WHERE name = (?)"
+        args = (member_name, )
+        self.conn.execute(stmt, args)
+        self.conn.commit()
+
+    def decreasePendenciesFrom(self, member_name):
+        stmt = "UPDATE members_delay SET pendencies_number = pendencies_number-1 WHERE name = (?)"
+        args = (member_name, )
+        self.conn.execute(stmt, args)
         self.conn.commit()
 
     def add_delay(self, member_name):

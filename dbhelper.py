@@ -8,6 +8,10 @@ class DBHelper:
         self.conn = sqlite3.connect(dbname)
 
     def setup(self):
+        stmt = "DROP TABLE IF EXISTS members_delay"
+        self.conn.execute(stmt)
+        self.conn.commit()
+
         stmt = "CREATE TABLE IF NOT EXISTS members_delay (id INTEGER PRIMARY KEY, name TEXT, delay_number INTEGER DEFAULT 0, pendencies_number INTEGER DEFAULT 0)"
         self.conn.execute(stmt)
         self.conn.commit()

@@ -8,9 +8,9 @@ class DBHelper:
         self.conn = sqlite3.connect(dbname)
 
     def setup(self):
-        stmt = "DROP TABLE IF EXISTS members_delay"
-        self.conn.execute(stmt)
-        self.conn.commit()
+        #stmt = "DROP TABLE IF EXISTS members_delay"
+        #self.conn.execute(stmt)
+        #self.conn.commit()
 
         stmt = "CREATE TABLE IF NOT EXISTS members_delay (id INTEGER PRIMARY KEY, name TEXT, delay_number INTEGER DEFAULT 0, pendencies_number INTEGER DEFAULT 0)"
         self.conn.execute(stmt)
@@ -33,7 +33,7 @@ class DBHelper:
         self.conn.execute(stmt, args)
         self.conn.commit()
 
-    def decreasePendenciesFrom(self, member_name):
+    def decreasePendingFrom(self, member_name):
         stmt = "UPDATE members_delay SET pendencies_number = pendencies_number-1 WHERE name = (?)"
         args = (member_name, )
         self.conn.execute(stmt, args)

@@ -178,7 +178,7 @@ def handle_updates(updates):
                     db.add_member(text)
                     send_message(text + " incluido com sucesso!\n", chat)
                 elif cur_cmd ==  "delpdfm":
-                    db.deletePendenciesFrom(text)
+                    db.deletePendingFrom(text)
                     send_message(text + " esta sem pendencias, papai!\n", chat)
                 elif cur_cmd ==  "decpdfm":
                     db.decreasePendingFrom(text)

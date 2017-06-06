@@ -107,10 +107,13 @@ def handle_updates(updates):
                 if members:
                     msg = "*RANKING TWONAI ATRASADOS :D* \n\n" 
                     for member in members:
-                        msgPart = " atrasos"
+                        msgDelays = " atrasos"
+                        msgPendencies = " pendencias"
                         if member.delay_number == 1:
-                            msgPart = " atraso"
-                        msg += member.name + ": " + str(member.delay_number) + msgPart + "\n"
+                            msgDelays = " atraso"
+                        if member.pendencies_number == 1:
+                            msgDelays = " pendencia"
+                        msg += member.name + ": " + str(member.delay_number) + msgDelays + " e " + str(member.pendencies_number) + msgPendencies + "\n"
                 send_message(msg, chat)
             elif text.startswith("/deleteallmembers"):
                 db.deleteAll()

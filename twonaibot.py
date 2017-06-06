@@ -112,40 +112,64 @@ def handle_updates(updates):
                         if member.delay_number == 1:
                             msgDelays = " atraso"
                         if member.pendencies_number == 1:
-                            msgDelays = " pendencia"
+                            msgPendencies = " pendencia"
                         msg += member.name + ": " + str(member.delay_number) + msgDelays + " e " + str(member.pendencies_number) + msgPendencies + "\n"
                 send_message(msg, chat)
             elif text.startswith("/deleteallmembers"):
-                db.deleteAll()
-                send_message("Todos os membros Twonai foram deletados :(", chat)
+                if members:
+                    db.deleteAll()
+                    send_message("Todos os membros Twonai foram deletados :(", chat)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/deletependenciesfrom"):
-                cur_cmd = "delpdfm"
-                keyboard = build_keyboard(members)
-                send_message("Quem é o membro que terá suas pendências zeradas?", chat, keyboard)
+                if members:
+                    cur_cmd = "delpdfm"
+                    keyboard = build_keyboard(members)
+                    send_message("Quem é o membro que terá suas pendências zeradas?", chat, keyboard)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/decreasependingfrom"):
-                cur_cmd = "decpdfm"
-                keyboard = build_keyboard(members)
-                send_message("Quem é o membro que devo retirar uma pendência? :D", chat, keyboard)
+                if members:
+                    cur_cmd = "decpdfm"
+                    keyboard = build_keyboard(members)
+                    send_message("Quem é o membro que devo retirar uma pendência? :D", chat, keyboard)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/deleteallpendencies"):
-                cur_cmd = "delallpnd"
-                db.deleteAllPendencies()
-                send_message("Pendências zeradas! :P", chat)
+                if members:
+                    cur_cmd = "delallpnd"
+                    db.deleteAllPendencies()
+                    send_message("Pendências zeradas! :P", chat)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/deletedelaysfrom"):
-                cur_cmd = "deldf"
-                keyboard = build_keyboard(members)
-                send_message("Quem é o membro que terá seus atrasos zerados? :D", chat, keyboard)
+                if members:
+                    cur_cmd = "deldf"
+                    keyboard = build_keyboard(members)
+                    send_message("Quem é o membro que terá seus atrasos zerados? :D", chat, keyboard)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/decreasedelayfrom"):
-                cur_cmd = "decdf"
-                keyboard = build_keyboard(members)
-                send_message("Quem é o membro que devo retirar um atraso? :D", chat, keyboard)
+                if members:
+                    cur_cmd = "decdf"
+                    keyboard = build_keyboard(members)
+                    send_message("Quem é o membro que devo retirar um atraso? :D", chat, keyboard)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/deletealldelays"):
-                cur_cmd = "delalld"
-                db.deleteAllDelays()
-                send_message("Atrasos zerados. UI DIDI! :D", chat)
+                if members:
+                    cur_cmd = "delalld"
+                    db.deleteAllDelays()
+                    send_message("Atrasos zerados. UI DIDI! :D", chat)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/deletemember"):
-                cur_cmd = "delmb"
-                keyboard = build_keyboard(members)
-                send_message("Quem é o membro que devo dar um chute na bunda? >D", chat, keyboard)
+                if members:
+                    cur_cmd = "delmb"
+                    keyboard = build_keyboard(members)
+                    send_message("Quem é o membro que devo dar um chute na bunda? >D", chat, keyboard)
+                else:
+                    send_message("Não existe membro Twonai cadastrado :(", chat)
             elif text.startswith("/"):
                 cur_cmd = ""
                 send_message("Não existe esse comando, twonai!", chat)

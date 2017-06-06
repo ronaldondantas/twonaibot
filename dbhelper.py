@@ -82,10 +82,10 @@ class DBHelper:
         return cursor.fetchall() > 0
 
     def get_members_delay(self):
-        stmt = "SELECT name, delay_number FROM members_delay"
+        stmt = "SELECT name, delay_number, pendencies_number FROM members_delay"
         members = []
         cursor = self.conn.execute(stmt)
         for member in cursor:
-            member = Member(member[0], member[1])
+            member = Member(member[0], member[1], member[2])
             members.append(member)
         return members
